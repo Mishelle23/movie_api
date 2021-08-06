@@ -2,13 +2,146 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
-    <title>Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Documentation About movie App</title>
   </head>
   <body>
     <h1>Documentation page</h1>
     <p>
-      A web application providing source of information about all sorts of
-      different movies, including cast, director or genres.
+      Hello and Welcome to my web application providing source of information
+      about all sorts of different movies, including cast, director or genres.
     </p>
+    <div class="table-wrapper">
+      <table>
+        <thead class="table">
+          <tr>
+            <th>Request</th>
+            <th>URL</th>
+            <th>HTTP Method</th>
+            <th>Request data format</th>
+            <th>Response data format</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Get list of all movies</td>
+            <td>/movies</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding complete data about all movies.</td>
+          </tr>
+          <tr>
+            <td>Return data about a movie by title.</td>
+            <td>/movies/[Title]</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>
+              A JSON object holding data about a single movie, containing
+              description, genre, director and actor.
+            </td>
+          </tr>
+          <tr>
+            <td>Return data about a genre by name.</td>
+            <td>/movies/genres[name]</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>
+              A JSON object holding information of movies in a particular genre.
+            </td>
+          </tr>
+          <tr>
+            <td>Return data about a director.</td>
+            <td>movies/directors/[Name]</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>
+              A JSON object holding data about a director.
+            </td>
+          </tr>
+          <tr>
+            <td>Allow new users to register.</td>
+            <td>/users</td>
+            <td>POST</td>
+            <td>
+              A JSON object holding data containing users details: first name,
+              last name, age and mail adress. Example:
+              <br /><br />
+              <br />
+              firstName: "John",<br />
+              lastName: "Smith",<br />
+              age: "30",<br />
+              mail: "John.S@hotmail.com"<br />
+            </td>
+            <td>
+              Confirmation message whether the registration has been completed
+              or not.
+            </td>
+          </tr>
+          <tr>
+            <td>Allowing a user to update username.</td>
+            <td>/users/[username]</td>
+            <td>PUT</td>
+            <td>
+              A JSON object holding data conatining the new username. Example:
+              <br /><br />
+              <br />
+              firstName: "New",<br />
+              lastName: "Username"<br />
+            </td>
+            <td>
+              Confirmation message that a new username was succesfully created
+              or not.
+            </td>
+          </tr>
+          <tr>
+            <td>Allow new users to deregister.</td>
+            <td>/users</td>
+            <td>DELETE</td>
+            <td>
+              A JSON object with details containing first name, last name and
+              mail adress. Example:
+              <br /><br />
+              <br />
+              firstName: "John",<br />
+              lastName: "Smith",<br />
+              mail: "John.S@hotmail.com"<br />
+            </td>
+            <td>
+              A verification message if the deregistration has been succesfull
+              or not.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Allowing user to add a movie to the list of favorites.
+            </td>
+            <td>/movies/users/[User]/favorites</td>
+            <td>PUT</td>
+            <td>
+              A JSON object which holds the name of the film to be added.
+              Example: <br /><br />
+              <br />
+              name: "movieName"<br />
+            </td>
+            <td>
+              A message wether the film has been added succesfully to the
+              favorites or not.
+            </td>
+          </tr>
+          <tr>
+            <td>Allow users to remove a movie from their list of favorites.</td>
+            <td>/movies/users/[User]/favorites</td>
+            <td>DELETE</td>
+            <td>
+              A JSON object holding the name of the film to be removed.
+            </td>
+            <td>
+              A message wether the film has been aremoved succesfully from the
+              favorites or not.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>
