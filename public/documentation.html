@@ -15,7 +15,7 @@
       <table>
         <thead class="table">
           <tr>
-            <th>Request</th>
+            <th>Business Logic</th>
             <th>URL</th>
             <th>HTTP Method</th>
             <th>Request data format</th>
@@ -37,40 +37,43 @@
             <td>None</td>
             <td>
               A JSON object holding data about a single movie, containing
-              description, genre, director and actor.
+              description, genre, director and actor. Example:<br />
+              id: 1,<br />
+              title: "Jungle"<br />
+              Description: "text"<br />
             </td>
           </tr>
           <tr>
-            <td>Return data about a genre by name.</td>
-            <td>/movies/genres[name]</td>
+            <td>Return data of all users.</td>
+            <td>/users</td>
             <td>GET</td>
             <td>None</td>
             <td>
-              A JSON object holding information of movies in a particular genre.
+              A JSON object holding information of all users.
             </td>
           </tr>
           <tr>
-            <td>Return data about a director.</td>
-            <td>movies/directors/[Name]</td>
+            <td>Return data about a single user using name.</td>
+            <td>/users/[Name]</td>
             <td>GET</td>
             <td>None</td>
             <td>
-              A JSON object holding data about a director.
+              A JSON object holding data about a single user. Example:<br />
+              Name: "anna lively",<br />
+              Password: "word123",<br />
+              Email: "annalively23@gmail.com"<br />
             </td>
           </tr>
           <tr>
-            <td>Allow new users to register.</td>
+            <td>Adding new user.</td>
             <td>/users</td>
             <td>POST</td>
             <td>
-              A JSON object holding data containing users details: first name,
-              last name, age and mail adress. Example:
-              <br /><br />
-              <br />
-              firstName: "John",<br />
-              lastName: "Smith",<br />
-              age: "30",<br />
-              mail: "John.S@hotmail.com"<br />
+              A JSON object holding data containing users details: username,
+              Password, email adress, birthdy. Example:<br />
+              Username: "usertest",<br />
+              Password: "xxxx",<br />
+              Email: "usertst@post.com"<br />
             </td>
             <td>
               Confirmation message whether the registration has been completed
@@ -94,50 +97,35 @@
             </td>
           </tr>
           <tr>
-            <td>Allow new users to deregister.</td>
+            <td>Removing user.</td>
             <td>/users</td>
             <td>DELETE</td>
             <td>
-              A JSON object with details containing first name, last name and
-              mail adress. Example:
-              <br /><br />
-              <br />
-              firstName: "John",<br />
-              lastName: "Smith",<br />
-              mail: "John.S@hotmail.com"<br />
+              A JSON object with details containing username and email adress,
+              password and birthday. Example:<br />
+              Username: "anyuser",<br />
+              Password: "zzz", Email: "anyuser@post.com"<br />
             </td>
             <td>
-              A verification message if the deregistration has been succesfull
-              or not.
+              A verification message if the deletion has been succesfull or not.
             </td>
           </tr>
           <tr>
             <td>
-              Allowing user to add a movie to the list of favorites.
+              Adding a movie to the list of favorites using ID.
             </td>
-            <td>/movies/users/[User]/favorites</td>
+            <td>/users[Username]/movies/[MovieID]/</td>
+            <td>POST</td>
+            <td>
+              A JSON object containing FavoriteMovies in form of MovieID.
+            </td>
+          </tr>
+          <tr>
+            <td>Allow users to be updated</td>
+            <td>/users/[Username]</td>
             <td>PUT</td>
             <td>
-              A JSON object which holds the name of the film to be added.
-              Example: <br /><br />
-              <br />
-              name: "movieName"<br />
-            </td>
-            <td>
-              A message wether the film has been added succesfully to the
-              favorites or not.
-            </td>
-          </tr>
-          <tr>
-            <td>Allow users to remove a movie from their list of favorites.</td>
-            <td>/movies/users/[User]/favorites</td>
-            <td>DELETE</td>
-            <td>
-              A JSON object holding the name of the film to be removed.
-            </td>
-            <td>
-              A message wether the film has been aremoved succesfully from the
-              favorites or not.
+              A message confirmation about successfull update.
             </td>
           </tr>
         </tbody>
