@@ -1,6 +1,6 @@
 const express = require("express");
-bodyParser = require("body-parser");
-uuid = require("uuid");
+const bodyParser = require("body-parser");
+const uuid = require("uuid");
 
 const { check, validationResult } = require("express-validator");
 const morgan = require("morgan");
