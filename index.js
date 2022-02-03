@@ -33,8 +33,8 @@ const passport = require("passport");
 require("./passport");
 
 auth = require("./auth")(app);
-/*const cors = require("cors");*/
-/*app.use(cors());*/
+const cors = require("cors");
+app.use(cors());
 /*let allowedOrigins = ['http://localhost:1234', 'http://testsite.com'];
 
 app.use(cors({
