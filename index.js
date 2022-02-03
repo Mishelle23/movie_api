@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const auth = require('./auth.js');
 const uuid = require("uuid");
 
 const { check, validationResult } = require("express-validator");
@@ -12,6 +13,7 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const Directors = Models.Director;
 const Genres = Models.Genre;
+
 
 //mongoose.connect("mongodb://localhost:27017/myFlixDB", {
 //useNewUrlParser: true,
@@ -28,13 +30,14 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let auth = require("./auth")(app);
+/*let auth = require("./auth")(app);*/
 const passport = require("passport");
 require("./passport");
 
 
 const cors = require("cors");
 app.use(cors());
+auth(app);
 /*let allowedOrigins = ['http://localhost:1234', 'http://testsite.com'];
 
 app.use(cors({
