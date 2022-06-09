@@ -85,7 +85,8 @@ app.get(
   "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Movies.findOne({ Title: req.params.Title }) // finding a movie via title
+    // finding a movie via title
+    Movies.findOne({ Title: req.params.Title })
       .then(movie => {
         res.json(movie);
       })
@@ -255,8 +256,8 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-
-    let hashedPassword = Users.hashPassword(req.body.Password);  // hashedPassword is created from entered Password
+    // hashedPassword is created from entered Password
+    let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
       .then(user => {
         if (user) {
@@ -295,11 +296,14 @@ app.put(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Users.findOneAndUpdate(
-      { Username: req.params.Username },  // Locate user via username
+      // Locate user via username
+      { Username: req.params.Username },
       {
-        $set: {                           // User information to be updated
+        // User information to be updated
+        $set: {
           Username: req.body.Username,
-          Password: req.body.Password,    // Retains hashed password
+          // Retains hashed password
+          Password: req.body.Password,
           Email: req.body.Email,
           Birthday: req.body.Birthday
         }
@@ -330,7 +334,8 @@ app.delete(
     Users.findOneAndRemove({ Username: req.params.Username })
       .then(user => {
         if (!user) {
-          res.status(400).send(req.params.Username + " was not found.");  // return success message if user was found otherwise return error
+          // return success message if user was found otherwise return error
+          res.status(400).send(req.params.Username + " was not found.");
         } else {
           res.status(200).send(req.params.Username + " was deleted.");
         }
@@ -372,7 +377,6 @@ app.post(
 );
 
 // Delete a movie from the favorite list of an user
-
 app.delete(
   "/users/:Username/movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
@@ -396,7 +400,6 @@ app.delete(
 );
 
 // Error handler
-
 app.use((err, req, res, next) => {
   console.log(err.stack);
   res.status(500).send("Something went wrong!");
