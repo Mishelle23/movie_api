@@ -1,11 +1,13 @@
+// express framework loaded
 const express = require("express");
 const bodyParser = require("body-parser");
 const auth = require('./auth.js');
 const uuid = require("uuid");
-
+// input fields validation
 const { check, validationResult } = require("express-validator");
 const morgan = require("morgan");
 const app = express();
+// Mongoose package is required and Mongoose Models created in models.js
 const mongoose = require("mongoose");
 const Models = require("./models.js");
 
@@ -14,12 +16,7 @@ const Users = Models.User;
 const Directors = Models.Director;
 const Genres = Models.Genre;
 
-
-//mongoose.connect("mongodb://localhost:27017/myFlixDB", {
-//useNewUrlParser: true,
-//useUnifiedTopology: true
-//});
-
+// connecting to the DB in use
 mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -30,14 +27,16 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-/*let auth = require("./auth")(app);*/
+// implementing passport module, imports file passport.js
 const passport = require("passport");
 require("./passport");
 
-
+// cors controls domains which are allowed to use the API
 const cors = require("cors");
 app.use(cors());
 auth(app);
+
+/*CORS policy to be initiated*/
 /*let allowedOrigins = ['http://localhost:1234', 'http://testsite.com'];
 
 app.use(cors({
@@ -51,12 +50,17 @@ app.use(cors({
   }
 }));*/
 
-// GET requests
+
+
 app.get("/", (req, res) => {
   res.send("Let Me Present My First Movie Database");
 });
 
-// Returning a list of ALL movies to the user
+/**
+ * GET request: provides a list of all movies
+ * @returns array of movie objects
+ * @requires passport
+ */
 app.get(
   "/movies", passport.authenticate("jwt", { session: false }),
   (req, res) => {
@@ -71,12 +75,17 @@ app.get(
   }
 );
 
-// Returning data about a single movie
+/**
+ * GET request: provides information about a single movie description, director, genre and image
+ * @param Title
+ * @returns movie object
+ * @requires passport
+ */
 app.get(
   "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Movies.findOne({ Title: req.params.Title })
+    Movies.findOne({ Title: req.params.Title }) // finding a movie via title
       .then(movie => {
         res.json(movie);
       })
@@ -87,7 +96,11 @@ app.get(
   }
 );
 
-// Returning data of all directors
+/**
+ * GET request: Returning data of all directors
+ * @returns all directors info
+ * @requires passport
+ */
 app.get(
   "/directors",
   passport.authenticate("jwt", {
@@ -105,7 +118,12 @@ app.get(
   }
 );
 
-// Returning the director's data by name
+/**
+ * GET request: Returning the director's data by name
+ * @param Name of chosen director
+ * @returns director object
+ * @requires passport
+ */
 app.get(
   "/directors/:Name",
   passport.authenticate("jwt", {
@@ -125,7 +143,11 @@ app.get(
   }
 );
 
-// Returning data of all genres
+/**
+ * GET request: Returning data of all genres
+ * @returns genres information
+ * @requires passport
+ */
 app.get(
   "/genre",
   passport.authenticate("jwt", {
@@ -143,7 +165,12 @@ app.get(
   }
 );
 
-//Returning data of a single genre by name
+/**
+ * GET request: Returning data of a single genre by name
+ * @param Name (genre)
+ * @returns genre object
+ * @requires passport
+ */
 app.get(
   "/genre/:Name",
   passport.authenticate("jwt", {
@@ -163,7 +190,11 @@ app.get(
   }
 );
 
-// Get all users
+/**
+ * GET request: Returning data of all users
+ * @returns array of user objects
+ * @requires passport
+ */
 app.get(
   "/users",
   passport.authenticate("jwt", { session: false }),
@@ -179,7 +210,12 @@ app.get(
   }
 );
 
-// Get a user by username
+/**
+ * GET request: Returning data of a single user by name (username)
+ * @param Username
+ * @returns object of a user
+ * @requires passport
+ */
 app.get(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
@@ -195,10 +231,13 @@ app.get(
   }
 );
 
-// Adding new user
-
+/**
+ * POST request: User is able to register via Password, Username and Email
+ * @returns object of new user
+ */
 app.post(
   "/users",
+  // Logic of user validation
   [
     check("Username", "Username is required").isLength({ min: 5 }),
     check(
@@ -217,7 +256,7 @@ app.post(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    let hashedPassword = Users.hashPassword(req.body.Password);
+    let hashedPassword = Users.hashPassword(req.body.Password);  // hashedPassword is created from entered Password
     Users.findOne({ Username: req.body.Username })
       .then(user => {
         if (user) {
@@ -245,18 +284,22 @@ app.post(
   }
 );
 
-// Updating a user's username
-
+/**
+ * PUT request: User can update thier user information
+ * @param Username
+ * @returns object of an updated user
+ * @requires passport 
+ */
 app.put(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Users.findOneAndUpdate(
-      { Username: req.params.Username },
+      { Username: req.params.Username },  // Locate user via username
       {
-        $set: {
+        $set: {                           // User information to be updated
           Username: req.body.Username,
-          Password: req.body.Password,
+          Password: req.body.Password,    // Retains hashed password
           Email: req.body.Email,
           Birthday: req.body.Birthday
         }
@@ -274,8 +317,12 @@ app.put(
   }
 );
 
-// Deleting a user by username
-
+/**
+ * Delete request: user can cancel registration
+ * @param Username
+ * @returns message that process has been successfull
+ * @requires passport
+ */
 app.delete(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
@@ -283,7 +330,7 @@ app.delete(
     Users.findOneAndRemove({ Username: req.params.Username })
       .then(user => {
         if (!user) {
-          res.status(400).send(req.params.Username + " was not found.");
+          res.status(400).send(req.params.Username + " was not found.");  // return success message if user was found otherwise return error
         } else {
           res.status(200).send(req.params.Username + " was deleted.");
         }
@@ -295,8 +342,13 @@ app.delete(
   }
 );
 
-// Adding a movie to the user's favorites
-
+/**
+ * POST reuest: Adding a movie to the user's favorites
+ * @param Username
+ * @param MovieID
+ * @returns object of a user
+ * @requires passport
+ */
 app.post(
   "/users/:Username/movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
