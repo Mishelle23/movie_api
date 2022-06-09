@@ -28,4 +28,19 @@ User can also register, update profile details and save or delete favorite movie
 ## How is application implemented
 
 The application need to be registered at [https://safe-coast-49930.herokuapp.com/users]
-and also [https://safe-coast-49930.herokuapp.com/login]
+and also [https://safe-coast-49930.herokuapp.com/login] for the JWT token to be obtained.
+
+## Technical Requirements
+
+- node.js 
+- MongoDB
+- RESTful architecture
+- Express
+- database: created with MongoDB
+- business logic layer: created with use of Mongoose
+- middleware modules
+- API returning movies as JSON
+- testing with use of Postman
+- security: user authetication, authorization and validation
+- deploy on Heroku
+- deploy on GitHub 
