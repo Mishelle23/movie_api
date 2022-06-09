@@ -13,4 +13,19 @@ User can also register, update profile details and save or delete favorite movie
 
 1. Dowload the repository or you may clone it also
 
-`
+` https://github.com/Mishelle23/movie_api.git`
+
+2. Install mongodb
+
+` npm install mongodb`
+
+3. Connect with your own MongoDB, environment variable is defined via CONNECTION_URI
+
+5. Start the server
+
+`npm run start`
+
+## How is application implemented
+
+The application need to be registered at ([https://](https://safe-coast-49930.herokuapp.com/users)
+and also (https://safe-coast-49930.herokuapp.com/login)
