@@ -27,5 +27,5 @@ User can also register, update profile details and save or delete favorite movie
 
 ## How is application implemented
 
-The application need to be registered at ([https://](https://safe-coast-49930.herokuapp.com/users)
-and also (https://safe-coast-49930.herokuapp.com/login)
+The application need to be registered at [https://safe-coast-49930.herokuapp.com/users]
+and also [https://safe-coast-49930.herokuapp.com/login]
